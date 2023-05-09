@@ -1,6 +1,8 @@
 const express = require("express");
 const bodyParser = require('body-parser')
-
+const { dbConnector } = require('./src/config/configDb')
+const crudTodo = require('./src/routes/todoCrud')
+const authentication = require('./src/routes/authRoutes')
 const app = express()
 
 //Use External Lib. to Encrypt the data
@@ -10,73 +12,19 @@ app.use(bodyParser.json())
 //port Number
 const port = 800
 
-//Main Array
-let data = []
-
-//Use Post Request Method
 app.get('/', (req, res) => {
-    res.status(200).json(data);
+    res.send('welcome');
 })
 
-//Use Params
-app.get('/get/:id', (req, res) => {
-    let paramData = []
-    data.forEach((obj) => {
-        if (obj.id === Number(req.params.id)) {
-            paramData.push(obj)
-        }
-    })
-    res.status(200).json(paramData);
-})
+//Manage Todo_CRUD_system
+app.use('/app', crudTodo)
 
-//Use Query
-app.get('/get', (req, res) => {
-    let QData = []
-    data.forEach((obj) => {
-        if (obj.name === req.query.name) {
-            QData.push(obj)
-        }
-    })
-    res.status(200).json(QData);
-})
-
-//Use Post Request Method
-app.post('/create', (req, res) => {
-    data.push({
-        ...req.body,
-        id: data.length + 1
-    })
-    console.log(data);
-    res.status(200).json(data);
-})
-
-//Update the Data
-app.post('/update/:id/', (req, res) => {
-    let updatedData = []
-    data.forEach((obj) => {
-        if (obj.id === Number(req.params.id)) {
-            obj.name = req.query.name
-        }
-        updatedData.push(obj)
-    })
-    data = updatedData
-    res.status(200).json(data)
-})
-
-//Delete the Data
-app.post('/delete/:id/', (req, res) => {
-    let updatedData = []
-    data.forEach((obj) => {
-        if (obj.id !== Number(req.params.id)) {
-            updatedData.push(obj)
-        } 
-    })
-    data = updatedData
-    res.status(200).json(data)
-})
+//Manage Authentication
+app.use('/auth', authentication)
 
 
 //Run The Server
 app.listen(port, () => {
     console.log(`server running on port ${port} sucessfully...`);
+    dbConnector()
 })
