@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const todoDataType = mongoose.model('todos', new mongoose.Schema({
+const todoSchema = mongoose.model('todos', new mongoose.Schema({
     description: {
         required: true,
         type: String,
@@ -13,4 +13,4 @@ const todoDataType = mongoose.model('todos', new mongoose.Schema({
     date: Date
 }));
 
-module.exports = todoDataType
+module.exports = todoSchema

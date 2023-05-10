@@ -1,12 +1,12 @@
-const todoDataType = require('../models/todoCrud')
+const todoSchema = require('../models/todoModel')
 var uniqid = require('uniqid');
 
 const read = async (req, res) => {
     try {
-        let data = await todoDataType.find()
+        let todos = await todoSchema.find()
         res.send({
             message: 'success',
-            data: data
+            data: todos
         })
     } catch (error) {
         res.send({
@@ -20,12 +20,12 @@ const read = async (req, res) => {
 
 const create = async (req, res) => {
     try {
-        const userData = new todoDataType({
+        const todo = new todoSchema({
             description: req.body.description,
             date: Date.now(),
             id: uniqid()
         })
-        const result = await userData.save()
+        await todo.save()
         res.send({
             message: 'success',
         })
@@ -39,7 +39,7 @@ const create = async (req, res) => {
 
 const update = async (req, res) => {
     try {
-        let data = await todoDataType.updateOne({ id: req.params.id }, { $set: { description: req.body.description } })
+        await todoSchema.updateOne({ id: req.params.id }, { $set: { description: req.body.description } })
         res.send({
             message: 'success',
         })
@@ -53,7 +53,7 @@ const update = async (req, res) => {
 
 const del = async (req, res) => {
     try {
-        await todoDataType.deleteOne({ id: req.params.id })
+        await todoSchema.deleteOne({ id: req.params.id })
         res.send({
             message: 'success',
         })
@@ -67,10 +67,10 @@ const del = async (req, res) => {
 
 const getTodo = async (req, res) => {
     try {
-        let data = await todoDataType.findOne({ id: req.params.id })
+        let todo = await todoSchema.findOne({ id: req.params.id })
         res.send({
             message: 'success',
-            data: data
+            data: todo
         })
     } catch (error) {
         res.send({

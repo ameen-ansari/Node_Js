@@ -4,6 +4,7 @@ const { dbConnector } = require('./src/config/configDb')
 const crudTodo = require('./src/routes/todoCrud')
 const authentication = require('./src/routes/authRoutes')
 const app = express()
+require('dotenv').config()
 
 //Use External Lib. to Encrypt the data
 app.use(bodyParser.urlencoded({ extended: false }))

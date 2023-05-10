@@ -1,6 +1,6 @@
 const express = require('express')
 const route = express.Router()
-const { read, create, update, del, getTodo } = require('../controllers/todoCrud');
+const { read, create, update, del, getTodo } = require('../controllers/todoCrudControllers');
 
 route.get('/gettodos', read)
 

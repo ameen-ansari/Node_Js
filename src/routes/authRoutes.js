@@ -1,5 +1,5 @@
 const express = require('express')
-const { logIn, signUp } = require('../controllers/authControler')
+const { logIn, signUp } = require('../controllers/authControllers')
 const route = express.Router()
 
 route.post('/signup', signUp)
